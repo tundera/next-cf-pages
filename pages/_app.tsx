@@ -18,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         defaultOptions: {
           queries: {
             retry: 0,
-            refetchOnMount: 'always',
             suspense: true,
           },
         },
