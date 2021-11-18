@@ -1,7 +1,9 @@
 import type { Player } from 'types'
 
-import Image from 'next/image'
+import NextImage from 'next/image'
+import { Box, Flex, Grid, Text, useColorModeValue } from '@chakra-ui/react'
 
+import Image from 'src/components/Image'
 import useTeam from 'src/hooks/useTeam'
 
 type PlayerCardProps = {
@@ -11,21 +13,35 @@ type PlayerCardProps = {
 const PlayerCard = ({ player }: PlayerCardProps) => {
   const { isError, data, error } = useTeam(player.ta)
 
+  const bgColor = useColorModeValue('white', 'gray.900')
+  const nameTextColor = useColorModeValue('gray.900', 'gray.100')
+  const detailTextColor = useColorModeValue('gray.500', 'gray.400')
+  const statsTextColor = useColorModeValue('gray.800', 'gray.200')
+
   if (isError) {
     return <span>Error: {(error as Error).message}</span>
   }
 
   return (
-    <article className="flex flex-col justify-end bg-white dark:bg-gray-900 shadow-2xl w-80 h-48 relative">
+    <Flex
+      direction="column"
+      justifyContent="end"
+      shadow="2xl"
+      w="80"
+      h="48"
+      position="relative"
+      bg={bgColor}
+    >
       <Image
         src={data?.logo as string}
         alt="Team image"
         layout="fill"
         objectFit="cover"
-        className="opacity-10 -translate-x-4"
+        opacity={0.1}
+        translateX="-4"
       />
-      <div className="pt-2">
-        <div className="flex items-end justify-evenly mx-4">
+      <Box pt="2">
+        <Flex justifyContent="space-evenly" alignItems="end" mx="4">
           <Image
             src={player.headshot}
             alt="Team image"
@@ -34,15 +50,28 @@ const PlayerCard = ({ player }: PlayerCardProps) => {
             height={120}
             objectFit="cover"
           />
-          <div className="ml-2">
-            <p className="text-sm md:text-md font-medium w-full text-gray-500 dark:text-gray-400 tracking-tight">
+          <Box ml="2">
+            <Text
+              fontSize={{ base: 'sm', md: 'md' }}
+              fontWeight="medium"
+              w="full"
+              color={detailTextColor}
+              letterSpacing="tight"
+            >
               #{player.num} | {player.pos}
-            </p>
-            <p className="text-md md:text-lg font-medium mb-6 sm:mb-10 w-full text-gray-900 dark:text-gray-100 tracking-tight">
+            </Text>
+            <Text
+              fontSize={{ base: 'md', md: 'lg' }}
+              fontWeight="medium"
+              w="full"
+              mb={{ base: '6', sm: '10' }}
+              color={nameTextColor}
+              letterSpacing="tight"
+            >
               {player.fn} {player.ln}
-            </p>
-          </div>
-          <div className="self-start">
+            </Text>
+          </Box>
+          <Box>
             <Image
               src={data?.logo as string}
               alt="Team logo"
@@ -51,27 +80,38 @@ const PlayerCard = ({ player }: PlayerCardProps) => {
               height={50}
               objectFit="cover"
             />
-          </div>
-        </div>
-      </div>
-      <div
-        className="grid grid-cols-3 divide-x-2 divide-black text-gray-800 dark:text-gray-200 border-t-4"
-        style={{ borderTopColor: data?.color }}
+          </Box>
+        </Flex>
+      </Box>
+      <Grid
+        templateColumns="3"
+        color={statsTextColor}
+        borderRightWidth="2"
+        borderLeftWidth="2"
+        borderColor="black"
+        borderTopWidth="4"
+        borderTopColor={data?.color}
       >
-        <div className="text-center py-1">
-          <p className="text-xs font-bold uppercase">PPG</p>
-          <p className="text-xs">{player.pts ?? '---'}</p>
-        </div>
-        <div className="text-center py-1">
-          <p className="text-xs font-bold uppercase">RPG</p>
-          <p className="text-xs">{player.reb ?? '---'}</p>
-        </div>
-        <div className="text-center py-1">
-          <p className="text-xs font-bold uppercase">APG</p>
-          <p className="text-xs">{player.ast ?? '---'}</p>
-        </div>
-      </div>
-    </article>
+        <Box textAlign="center" py="1">
+          <Text fontSize="xs" fontWeight="bold" textTransform="uppercase">
+            PPG
+          </Text>
+          <Text fontSize="xs">{player.pts ?? '---'}</Text>
+        </Box>
+        <Box textAlign="center" py="1">
+          <Text fontSize="xs" fontWeight="bold" textTransform="uppercase">
+            RPG
+          </Text>
+          <Text fontSize="xs">{player.reb ?? '---'}</Text>
+        </Box>
+        <Box textAlign="center" py="1">
+          <Text fontSize="xs" fontWeight="bold" textTransform="uppercase">
+            APG
+          </Text>
+          <Text fontSize="xs">{player.ast ?? '---'}</Text>
+        </Box>
+      </Grid>
+    </Flex>
   )
 }
 

@@ -1,27 +1,38 @@
 import type { NextPage } from 'next'
 
 import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+import { Heading, Stack, useColorModeValue } from '@chakra-ui/react'
 
 import Container from 'src/components/Container'
-import { Suspense } from 'react'
 import LoadingSpinner from 'src/components/LoadingSpinner'
 
 const PlayersGrid = dynamic(() => import('src/components/PlayersGrid'), { suspense: true })
 
 const Home: NextPage = () => {
+  const headingColor = useColorModeValue('gray.700', 'gray.200')
+  const subheadingColor = useColorModeValue('black', 'white')
+
   return (
     <Container>
-      <div className="flex flex-col items-center">
-        <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4 text-black dark:text-white">
+      <Stack alignItems="center">
+        <Heading
+          as="h1"
+          mb="4"
+          fontSize={{ base: '3xl', md: '5xl' }}
+          fontWeight="bold"
+          letterSpacing="tight"
+          color={headingColor}
+        >
           NBA Demo
-        </h1>
-        <h2 className="text-xl text-gray-700 dark:text-gray-200 mb-12">
+        </Heading>
+        <Heading as="h2" mb="12" fontSize="xl" color={subheadingColor}>
           Made with Next.js, TailwindCSS, and React Query
-        </h2>
+        </Heading>
         <Suspense fallback={<LoadingSpinner />}>
           <PlayersGrid />
         </Suspense>
-      </div>
+      </Stack>
     </Container>
   )
 }

@@ -1,10 +1,12 @@
+import { Center } from '@chakra-ui/react'
+
 import LoadingSpinner from 'src/components/LoadingSpinner'
 
 const FullPageSpinner = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full">
+    <Center minH="100vh" w="full">
       <LoadingSpinner />
-    </div>
+    </Center>
   )
 }
 

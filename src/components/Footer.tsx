@@ -1,29 +1,44 @@
-import Link from 'next/link'
+import { Flex, Divider, Grid, useColorModeValue } from '@chakra-ui/react'
 
-import ExternalLink from 'src/components/ExternalLink'
+import Link from 'src/components/Link'
 
 const Footer = () => {
+  const dividerColor = useColorModeValue('gray.200', 'gray.800')
+
   return (
-    <footer className="flex flex-col justify-center items-start max-w-4xl mx-auto w-full mb-8">
-      <hr className="w-full border-1 border-gray-200 dark:border-gray-800 mb-8" />
-      <div className="w-full max-w-4xl grid grid-cols-1 gap-4 pb-16 sm:grid-cols-3">
-        <div className="flex flex-col space-y-4">
-          <Link href="/">
-            <a className="text-gray-500 hover:text-gray-600 transition">Home</a>
+    <Flex
+      as="footer"
+      direction="column"
+      justifyContent="center"
+      alignItems="start"
+      maxW="4xl"
+      w="full"
+      mx="auto"
+      mb="8"
+    >
+      <Divider w="full" height="1" color={dividerColor} mb="8" />
+      <Grid templateColumns={{ base: '1', sm: '3' }} gap="4" maxW="4xl" w="full" pb="16">
+        <Flex direction="column" experimental_spaceY="4">
+          <Link href="/" color="gray.500" _hover={{ color: 'gray.600' }}>
+            Home
           </Link>
-          <Link href="/about">
-            <a className="text-gray-500 hover:text-gray-600 transition">About</a>
+          <Link href="/about" color="gray.500" _hover={{ color: 'gray.600' }}>
+            About
           </Link>
-          <Link href="/newsletter">
-            <a className="text-gray-500 hover:text-gray-600 transition">Newsletter</a>
+          <Link href="/newsletter" color="gray.500" _hover={{ color: 'gray.600' }}>
+            Newsletter
           </Link>
-        </div>
-        <div className="flex flex-col space-y-4">
-          <ExternalLink href="https://twitter.com/tunderadev">Twitter</ExternalLink>
-          <ExternalLink href="https://github.com/tundera">GitHub</ExternalLink>
-        </div>
-      </div>
-    </footer>
+        </Flex>
+        <Flex direction="column" experimental_spaceY="4">
+          <Link href="https://twitter.com/tunderadev" isExternal>
+            Twitter
+          </Link>
+          <Link href="https://github.com/tundera" isExternal>
+            GitHub
+          </Link>
+        </Flex>
+      </Grid>
+    </Flex>
   )
 }
 
